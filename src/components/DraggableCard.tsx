@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 // DraggableCard.tsx
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
@@ -15,6 +16,7 @@ const Card = styled.div`
 	width: 100%;
 	text-align: center;
 	padding: 8px 0;
+	margin: 4px 0;
 	color: var(--grayscale-900);
 	border-radius: 12px;
 `;
@@ -36,4 +38,4 @@ const DraggableCard: React.FC<Props> = ({ toDoId, toDoText, index }) => {
 	);
 };
 
-export default DraggableCard;
+export default React.memo(DraggableCard);

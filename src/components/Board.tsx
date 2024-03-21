@@ -31,7 +31,6 @@ const Content = styled.div`
 	font-size: 12px;
 	display: flex;
 	flex-direction: column;
-	gap: 8px;
 	flex-grow: 1;
 	width: 100%;
 	align-items: center;

@@ -39,8 +39,55 @@ const Boards = styled.div`
 
 const App: React.FC<Props> = () => {
 	const [toDos, setTodos] = useRecoilState(toDoState);
-	const onDragEnd = (info: DropResult) => {};
-	console.log(toDos);
+	const onDragEnd = ({ destination, source }: DropResult) => {
+		if (!destination) return;
+		if (destination.droppableId === source.droppableId) {
+			setTodos((allBoards) => {
+				const boardCopy = [...allBoards[source.droppableId]];
+				const taskObj = boardCopy[source.index];
+				boardCopy.splice(source.index, 1);
+				boardCopy.splice(destination.index, 0, taskObj);
+
+				localStorage.setItem(
+					'toDoList',
+					JSON.stringify({
+						...allBoards,
+						[source.droppableId]: boardCopy,
+					})
+				);
+
+				return {
+					...allBoards,
+					[source.droppableId]: boardCopy,
+				};
+			});
+		}
+		if (destination.droppableId !== source.droppableId) {
+			setTodos((allBoards) => {
+				const sourceBoard = [...allBoards[source.droppableId]];
+				const taskObj = sourceBoard[source.index];
+
+				const destinationBoard = [...allBoards[destination.droppableId]];
+				sourceBoard.splice(source.index, 1);
+				destinationBoard.splice(destination.index, 0, taskObj);
+
+				localStorage.setItem(
+					'toDoList',
+					JSON.stringify({
+						...allBoards,
+						[source.droppableId]: sourceBoard,
+						[destination.droppableId]: destinationBoard,
+					})
+				);
+
+				return {
+					...allBoards,
+					[source.droppableId]: sourceBoard,
+					[destination.droppableId]: destinationBoard,
+				};
+			});
+		}
+	};
 
 	return (
 		<Wrapper>
@@ -48,7 +95,7 @@ const App: React.FC<Props> = () => {
 				<Boards>
 					{Object.keys(toDos).map((boardId) => (
 						<Board
-							key={uuidv4()}
+							key={boardId}
 							boardId={boardId}
 							toDos={toDos[boardId]}
 						/>
