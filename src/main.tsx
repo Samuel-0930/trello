@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
+import { RecoilRoot } from 'recoil';
 
 export const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -30,8 +31,8 @@ export const GlobalStyle = createGlobalStyle`
 `;
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-	<React.StrictMode>
+	<RecoilRoot>
 		<GlobalStyle />
 		<App />
-	</React.StrictMode>
+	</RecoilRoot>
 );
